@@ -1,99 +1,61 @@
-<<<<<<< HEAD
 # 🏦 Customer Churn Prediction Web App
 
-An interactive, premium web application built with **Streamlit** and powered by an **Artificial Neural Network (ANN)** to predict bank customer churn with real-time feedback.
+A clean, interactive web application that uses a Deep Learning **Artificial Neural Network (ANN)** to predict whether a bank customer is likely to leave (churn).
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/)
-[![Python 3.11+](https://img.shields.shields.shields.shields.shields.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org/)
-[![TensorFlow 2.21](https://img.shields.shields.shields.shields.shields.shields.io/badge/TensorFlow-2.21-orange.svg)](https://tensorflow.org)
-[![License: MIT](https://img.shields.shields.shields.shields.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+🔗 **Live Demo**: [https://3pkxyregnaqczcurjnzgz3.streamlit.app/](https://3pkxyregnaqczcurjnzgz3.streamlit.app/)
 
----
-
-## 🌟 Features
-
-*   **Real-time Deep Learning Inference**: Uses a pre-trained Keras ANN model (`model.h5`) to output churn probabilities immediately.
-*   **Intuitive UI/UX**: Feature sliders, number inputs, and selection boxes carefully designed for inputting customer profiles.
-*   **Dynamic Alert Feedbacks**: Displays precise prediction probabilities with color-coded success/warning panels.
-*   **Production-Ready Data Pipeline**: Bundles production encoders (`LabelEncoder`, `OneHotEncoder`) and scalers (`StandardScaler`) to process raw input data exactly like the training phase.
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://3pkxyregnaqczcurjnzgz3.streamlit.app/)
+[![Python 3.11+](https://img.shields.shields.shields.shields.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org/)
+[![TensorFlow 2.21](https://img.shields.shields.shields.shields.shields.io/badge/TensorFlow-2.21-orange.svg)](https://tensorflow.org)
 
 ---
 
-## 🛠️ Technology Stack
+## 🌟 Key Features
 
-*   **Core Logic & Model**: Python 3.11+, TensorFlow (Keras), Scikit-Learn, Pandas, NumPy
-*   **Web Framework**: Streamlit
-*   **Serialization**: Pickle (`.pkl`) for preprocessing encoders/scalers and HDF5 (`.h5`) for the neural network.
-
----
-
-## 📂 Repository Structure
-
-```text
-├── Churn_Modelling.csv         # Raw dataset used for training the model
-├── app.py                      # Main Streamlit web application entrypoint
-├── experement.ipynb            # Jupyter Notebook containing exploratory data analysis & training steps
-├── prediction.ipynb            # Jupyter Notebook used to verify pre-trained models
-├── requirements.txt            # Project dependencies for local and cloud environments
-├── model.h5                    # Pre-trained Keras Deep Learning model
-├── scaler.pkl                  # Fitted StandardScaler object
-├── label_encoder_gender.pkl    # Fitted LabelEncoder for gender features
-├── onehot_encoder_geo.pkl      # Fitted OneHotEncoder for geographical features
-└── README.md                   # Project documentation
-```
+*   **ANN-Powered Predictions**: Uses a pre-trained Keras Deep Learning model (`model.h5`) under the hood.
+*   **Production Preprocessing**: Automatically handles customer feature scaling (`StandardScaler`) and encoding (`LabelEncoder`, `OneHotEncoder`) in real time.
+*   **Simple Input Fields**: Easily input details like credit score, geography, gender, age, balance, and activity status.
+*   **Instant Result Panels**: Color-coded feedback showing the exact churn probability and prediction.
 
 ---
 
-## 🚀 Local Installation
+## 📁 Core Files
 
-Get the application running locally in just a few steps:
+*   `app.py`: Streamlit frontend and prediction routing.
+*   `model.h5`: Trained Keras ANN model.
+*   `scaler.pkl`, `label_encoder_gender.pkl`, `onehot_encoder_geo.pkl`: Serialized data preprocessing objects.
+*   `experement.ipynb`: Training notebook (exploratory analysis, scaling, network architecture, and callback configs).
+*   `requirements.txt`: Project dependencies.
 
-1. **Clone the Repository**:
+---
+
+## 🚀 Running Locally
+
+1. **Clone the project & navigate inside**:
    ```bash
    git clone https://github.com/YOUR_USERNAME/ann_classification-.git
    cd ann_classification-
    ```
 
-2. **Create and Activate Virtual Environment**:
+2. **Create & activate a virtual environment**:
    ```bash
    python -m venv venv
-   # On Windows:
-   .\venv\Scripts\activate
-   # On macOS/Linux:
-   source venv/bin/activate
+   # Windows:
+   .\venv\python.exe -m pip install -r requirements.txt
+   # macOS/Linux:
+   source venv/bin/activate && pip install -r requirements.txt
    ```
 
-3. **Install Dependencies**:
+3. **Run the Streamlit app**:
    ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Launch Streamlit Web Server**:
-   ```bash
+   # Windows:
+   .\venv\Scripts\streamlit run app.py
+   # macOS/Linux:
    streamlit run app.py
    ```
-   Open `http://localhost:8501` in your browser to view the application.
 
 ---
 
-## ☁️ Streamlit Community Cloud Deployment
+## ☁️ Deployment Note
 
-To host this model online on Streamlit Community Cloud:
-
-1. **Push all files to GitHub** (make sure `model.h5` and `.pkl` files are committed).
-2. Go to [share.streamlit.io](https://share.streamlit.io/) and log in.
-3. Click **"New app"** and fill in your repository details.
-4. **Crucial Configuration**: Click on **"Advanced settings..."** at the bottom of the page.
-5. In the dropdown menu, select **Python 3.11** or **Python 3.12** (since modern TensorFlow/Scikit-Learn requires Python 3.11+).
-6. Click **Save** and **Deploy**!
-
----
-
-## 📜 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-=======
-# ANN_Classification-
-
-https://3pkxyregnaqczcurjnzgz3.streamlit.app/
->>>>>>> c88b3b281643edf98b694e03523440898425fa75
+When deploying this app to **Streamlit Community Cloud**, ensure you configure the **Advanced settings** to use **Python 3.11** or higher. This is required because modern TensorFlow versions are not supported on older Python versions (like Python 3.9).
