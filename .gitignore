@@ -13,8 +13,8 @@ __pycache__/
 .ipynb_checkpoints/
 
 # TensorFlow / Keras model files
-*.h5
-*.keras
+# *.h5
+# *.keras
 
 # Pickle files (optional)
 # Uncomment if you DON'T want to upload encoders/scalers
