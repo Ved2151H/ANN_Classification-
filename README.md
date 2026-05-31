@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🏦 Customer Churn Prediction Web App
 
 An interactive, premium web application built with **Streamlit** and powered by an **Artificial Neural Network (ANN)** to predict bank customer churn with real-time feedback.
@@ -91,3 +92,8 @@ To host this model online on Streamlit Community Cloud:
 ## 📜 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+=======
+# ANN_Classification-
+
+https://3pkxyregnaqczcurjnzgz3.streamlit.app/
+>>>>>>> c88b3b281643edf98b694e03523440898425fa75
