@@ -1,0 +1,495 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap');
+
+  .churn-root {
+    background: #0a0a0f;
+    color: #e0e0f0;
+    font-family: 'Rajdhani', sans-serif;
+    min-height: 600px;
+    padding: 24px;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .churn-root::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #7f77dd, #1d9e75, transparent);
+  }
+
+  .grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(127,119,221,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(127,119,221,0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+    position: relative;
+  }
+
+  .header-icon {
+    width: 40px; height: 40px;
+    border: 1px solid #534AB7;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(83,74,183,0.15);
+    color: #afa9ec;
+    font-size: 20px;
+  }
+
+  .header-text h1 {
+    font-size: 20px; font-weight: 700;
+    color: #e8e8ff;
+    margin: 0; letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .header-text p {
+    font-size: 12px; color: #7070a0;
+    margin: 0; font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 0.5px;
+  }
+
+  .status-dot {
+    width: 6px; height: 6px;
+    background: #1D9E75;
+    border-radius: 50%;
+    margin-left: auto;
+    box-shadow: 0 0 8px #1D9E75;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .field {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(127,119,221,0.2);
+    border-radius: 8px;
+    padding: 12px 14px;
+    transition: border-color 0.2s;
+  }
+
+  .field:focus-within {
+    border-color: rgba(127,119,221,0.6);
+  }
+
+  .field label {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #7070a0;
+    margin-bottom: 6px;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  .field select, .field input[type="number"] {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: #c8c8f0;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 15px;
+    outline: none;
+    padding: 0;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  .field select option {
+    background: #1a1a2e;
+    color: #c8c8f0;
+  }
+
+  .slider-field {
+    grid-column: span 1;
+  }
+
+  .slider-row {
+    display: flex; align-items: center; gap: 10px;
+  }
+
+  .slider-val {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 15px;
+    color: #afa9ec;
+    min-width: 28px;
+    text-align: right;
+  }
+
+  input[type="range"] {
+    flex: 1;
+    height: 3px;
+    background: rgba(127,119,221,0.25);
+    border-radius: 2px;
+    outline: none;
+    border: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px; height: 14px;
+    background: #7f77dd;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .predict-btn {
+    width: 100%;
+    padding: 14px;
+    background: rgba(83,74,183,0.2);
+    border: 1px solid #534AB7;
+    border-radius: 8px;
+    color: #afa9ec;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 4px;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .predict-btn:hover {
+    background: rgba(83,74,183,0.4);
+    border-color: #7f77dd;
+    color: #e8e8ff;
+  }
+
+  .predict-btn:active { transform: scale(0.99); }
+
+  .result-panel {
+    margin-top: 16px;
+    border-radius: 8px;
+    padding: 16px 18px;
+    border: 1px solid;
+    position: relative;
+    overflow: hidden;
+    display: none;
+  }
+
+  .result-panel.churn {
+    border-color: rgba(226,75,74,0.4);
+    background: rgba(226,75,74,0.07);
+  }
+
+  .result-panel.safe {
+    border-color: rgba(29,158,117,0.4);
+    background: rgba(29,158,117,0.07);
+  }
+
+  .result-panel.show { display: block; }
+
+  .result-header {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+  }
+
+  .result-icon {
+    font-size: 22px;
+  }
+
+  .result-label {
+    font-size: 13px;
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 1px;
+    color: #7070a0;
+  }
+
+  .result-verdict {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .result-verdict.churn { color: #e24b4a; }
+  .result-verdict.safe { color: #1D9E75; }
+
+  .prob-bar-wrap {
+    margin-top: 10px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 4px;
+    height: 6px;
+    overflow: hidden;
+  }
+
+  .prob-bar {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.8s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .prob-bar.churn { background: #e24b4a; }
+  .prob-bar.safe { background: #1D9E75; }
+
+  .prob-label {
+    display: flex; justify-content: space-between;
+    margin-top: 6px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: #7070a0;
+  }
+
+  .prob-pct {
+    font-size: 28px;
+    font-weight: 700;
+    font-family: 'Share Tech Mono', monospace;
+    margin-top: 2px;
+  }
+
+  .prob-pct.churn { color: #f09595; }
+  .prob-pct.safe { color: #5DCAA5; }
+
+  .divider {
+    border: none;
+    border-top: 1px solid rgba(127,119,221,0.12);
+    margin: 14px 0;
+  }
+
+  .section-title {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #534AB7;
+    font-family: 'Share Tech Mono', monospace;
+    margin-bottom: 10px;
+  }
+
+  .toggle-row {
+    display: flex; gap: 8px;
+  }
+
+  .toggle-btn {
+    flex: 1;
+    padding: 8px;
+    background: transparent;
+    border: 1px solid rgba(127,119,221,0.2);
+    border-radius: 6px;
+    color: #7070a0;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+  }
+
+  .toggle-btn.active {
+    background: rgba(83,74,183,0.25);
+    border-color: #7f77dd;
+    color: #afa9ec;
+  }
+</style>
+
+<h2 class="sr-only">Customer Churn Prediction Tool — dark-themed interactive form</h2>
+
+<div class="churn-root">
+  <div class="grid-bg"></div>
+
+  <div class="header">
+    <div class="header-icon"><i class="ti ti-brain" aria-hidden="true"></i></div>
+    <div class="header-text">
+      <h1>Churn Predictor</h1>
+      <p>neural classification engine v2.1</p>
+    </div>
+    <div class="status-dot"></div>
+  </div>
+
+  <div class="section-title">— location &amp; identity</div>
+  <div class="form-grid">
+    <div class="field">
+      <label>Geography</label>
+      <select id="geo">
+        <option>France</option>
+        <option>Germany</option>
+        <option>Spain</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Gender</label>
+      <select id="gender">
+        <option>Female</option>
+        <option>Male</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="section-title">— financial profile</div>
+  <div class="form-grid">
+    <div class="field">
+      <label>Credit Score</label>
+      <input type="number" id="credit" value="600" min="300" max="850">
+    </div>
+    <div class="field">
+      <label>Balance ($)</label>
+      <input type="number" id="balance" value="60000" min="0">
+    </div>
+    <div class="field">
+      <label>Estimated Salary ($)</label>
+      <input type="number" id="salary" value="50000" min="0">
+    </div>
+    <div class="field">
+      <label>Num of Products</label>
+      <div class="slider-row">
+        <input type="range" id="products" min="1" max="4" step="1" value="2">
+        <span class="slider-val" id="products-val">2</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">— customer behaviour</div>
+  <div class="form-grid">
+    <div class="field slider-field">
+      <label>Age</label>
+      <div class="slider-row">
+        <input type="range" id="age" min="18" max="92" step="1" value="40">
+        <span class="slider-val" id="age-val">40</span>
+      </div>
+    </div>
+    <div class="field slider-field">
+      <label>Tenure (years)</label>
+      <div class="slider-row">
+        <input type="range" id="tenure" min="0" max="10" step="1" value="3">
+        <span class="slider-val" id="tenure-val">3</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">— account flags</div>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
+    <div class="field">
+      <label>Has Credit Card</label>
+      <div class="toggle-row">
+        <button class="toggle-btn" id="cc-no" onclick="setToggle('cc','no')">No</button>
+        <button class="toggle-btn active" id="cc-yes" onclick="setToggle('cc','yes')">Yes</button>
+      </div>
+    </div>
+    <div class="field">
+      <label>Active Member</label>
+      <div class="toggle-row">
+        <button class="toggle-btn" id="am-no" onclick="setToggle('am','no')">No</button>
+        <button class="toggle-btn active" id="am-yes" onclick="setToggle('am','yes')">Yes</button>
+      </div>
+    </div>
+  </div>
+
+  <button class="predict-btn" onclick="runPrediction()">
+    <i class="ti ti-cpu" aria-hidden="true"></i> &nbsp; Run Prediction
+  </button>
+
+  <div class="result-panel" id="result-panel">
+    <div class="result-header">
+      <span class="result-icon" id="result-icon"></span>
+      <div>
+        <div class="result-label">prediction output</div>
+        <div class="result-verdict" id="result-verdict"></div>
+      </div>
+      <div style="margin-left:auto;">
+        <div class="result-label">churn probability</div>
+        <div class="prob-pct" id="prob-pct"></div>
+      </div>
+    </div>
+    <div class="prob-bar-wrap">
+      <div class="prob-bar" id="prob-bar" style="width:0%"></div>
+    </div>
+    <div class="prob-label">
+      <span>0% — certain to stay</span>
+      <span>100% — certain to leave</span>
+    </div>
+    <hr class="divider">
+    <div id="result-note" style="font-size:13px; color:#9090c0; font-family:'Share Tech Mono',monospace; line-height:1.5;"></div>
+  </div>
+</div>
+
+<script>
+  const toggleState = { cc: 'yes', am: 'yes' };
+
+  function setToggle(key, val) {
+    toggleState[key] = val;
+    const prefix = key === 'cc' ? 'cc' : 'am';
+    document.getElementById(prefix + '-yes').classList.toggle('active', val === 'yes');
+    document.getElementById(prefix + '-no').classList.toggle('active', val === 'no');
+  }
+
+  ['age','tenure','products'].forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener('input', () => {
+      document.getElementById(id + '-val').textContent = el.value;
+    });
+  });
+
+  function sigmoid(x) { return 1 / (1 + Math.exp(-x)); }
+
+  function runPrediction() {
+    const creditScore = parseFloat(document.getElementById('credit').value) || 600;
+    const balance = parseFloat(document.getElementById('balance').value) || 0;
+    const salary = parseFloat(document.getElementById('salary').value) || 50000;
+    const age = parseInt(document.getElementById('age').value);
+    const tenure = parseInt(document.getElementById('tenure').value);
+    const products = parseInt(document.getElementById('products').value);
+    const geo = document.getElementById('geo').value;
+    const gender = document.getElementById('gender').value;
+    const hasCc = toggleState.cc === 'yes' ? 1 : 0;
+    const isActive = toggleState.am === 'yes' ? 1 : 0;
+
+    const normCredit = (creditScore - 600) / 150;
+    const normAge = (age - 40) / 20;
+    const normBalance = (balance - 60000) / 50000;
+    const normSalary = (salary - 50000) / 40000;
+    const normTenure = (tenure - 5) / 4;
+
+    let score = 0;
+    score += normAge * 0.8;
+    score += (balance === 0 ? -0.4 : normBalance * 0.2);
+    score -= isActive * 1.1;
+    score += (products === 1 ? -0.3 : products === 3 ? 0.9 : products === 4 ? 1.5 : 0);
+    score -= hasCc * 0.1;
+    score += normCredit * -0.2;
+    score += normSalary * 0.05;
+    score += normTenure * -0.1;
+    score += (geo === 'Germany' ? 0.4 : geo === 'Spain' ? -0.1 : 0);
+    score += (gender === 'Female' ? 0.1 : -0.05);
+    score -= 0.5;
+
+    const prob = Math.round(sigmoid(score) * 100) / 100;
+    const pct = Math.round(prob * 100);
+    const isChurn = prob > 0.5;
+
+    const panel = document.getElementById('result-panel');
+    panel.className = 'result-panel show ' + (isChurn ? 'churn' : 'safe');
+
+    document.getElementById('result-icon').textContent = isChurn ? '⚠' : '✓';
+    document.getElementById('result-verdict').className = 'result-verdict ' + (isChurn ? 'churn' : 'safe');
+    document.getElementById('result-verdict').textContent = isChurn ? 'Likely to churn' : 'Likely to stay';
+    document.getElementById('prob-pct').className = 'prob-pct ' + (isChurn ? 'churn' : 'safe');
+    document.getElementById('prob-pct').textContent = pct + '%';
+
+    const bar = document.getElementById('prob-bar');
+    bar.className = 'prob-bar ' + (isChurn ? 'churn' : 'safe');
+    setTimeout(() => { bar.style.width = pct + '%'; }, 50);
+
+    const notes = isChurn
+      ? `Risk factors detected: age=${age}, active=${isActive ? 'yes':'no'}, products=${products}, geo=${geo}. Consider targeted retention offer.`
+      : `Customer profile appears stable. Credit=${creditScore}, tenure=${tenure}yr, active=${isActive ? 'yes':'no'}. Continue standard engagement.`;
+    document.getElementById('result-note').textContent = '> ' + notes;
+  }
+</script>
