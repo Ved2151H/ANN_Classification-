@@ -1,0 +1,46 @@
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# TensorFlow / Keras model files
+*.h5
+*.keras
+
+# Pickle files (optional)
+# Uncomment if you DON'T want to upload encoders/scalers
+# *.pkl
+
+# Logs
+logs/
+log/
+*.log
+
+# TensorBoard files
+events.out.tfevents.*
+
+# VS Code settings
+.vscode/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Streamlit secrets
+.streamlit/secrets.toml
+
+# Environment variables
+.env
+
+# Temporary files
+temp/
+tmp/
